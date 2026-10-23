@@ -1,0 +1,32 @@
+# Mẫu dịch vụ systemd. Cách nhanh nhất: sudo bash install-linux.sh (tự tạo dịch vụ này, tự cài Node.js).
+# Cài tay:
+#   1) Cài Node.js 22 LTS trở lên, giải nén phần mềm vào /opt/chamcong, tạo /opt/chamcong/.env từ .env.example
+#   2) sudo useradd --system --home /opt/chamcong chamcong && sudo mkdir -p /var/lib/chamcong
+#      sudo chown -R chamcong: /opt/chamcong /var/lib/chamcong
+#   3) sudo cp deploy/chamcong.service /etc/systemd/system/ && sudo systemctl daemon-reload && sudo systemctl enable --now chamcong
+[Unit]
+Description=Phan mem quan ly (chamcong ERP)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=chamcong
+WorkingDirectory=/opt/chamcong
+# start.js đọc /opt/chamcong/.env, ghi log vào <DATA_DIR>/logs và tự bật lại phần mềm sau khi cập nhật trên web
+ExecStart=/usr/bin/node /opt/chamcong/start.js
+Restart=always
+RestartSec=3
+KillMode=mixed
+TimeoutStopSec=20
+Environment=DATA_DIR=/var/lib/chamcong
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+# Thư mục phần mềm phải ghi được thì cập nhật trên web mới hoạt động
+ReadWritePaths=/opt/chamcong /var/lib/chamcong
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,28 @@
+{
+  "name": "chamcong",
+  "version": "1.5.0",
+  "private": true,
+  "description": "Phần mềm quản lý (ERP): chấm công, đơn hàng đại lý, giao hàng, tài chính. Không cần thư viện ngoài.",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node start.js",
+    "stop": "node start.js --stop",
+    "status": "node start.js --status",
+    "dev": "node --watch server/index.js",
+    "seed:demo": "node scripts/seed-demo.js",
+    "backup": "node scripts/backup.js",
+    "update:pack": "node scripts/make-update.js",
+    "release": "node scripts/make-release.js",
+    "update:key": "node scripts/gen-update-key.js",
+    "test": "node scripts/smoke-test.js && node scripts/smoke-erp.js && node scripts/smoke-launcher.js"
+  },
+  "engines": {
+    "node": ">=22.5"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/ios": "^8.5.3"
+  }
+}

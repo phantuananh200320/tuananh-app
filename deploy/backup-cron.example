@@ -1,0 +1,9 @@
+# Sao lưu tự động lúc 02:00 mỗi đêm, giữ 30 bản. Thêm bằng: crontab -e
+# --- Chạy trực tiếp (không Docker) ---
+0 2 * * * cd /opt/chamcong && DATA_DIR=/var/lib/chamcong node scripts/backup.js --keep=30 >> /var/log/chamcong-backup.log 2>&1
+# --- Chạy bằng Docker Compose ---
+# 0 2 * * * cd /opt/chamcong && docker compose exec -T chamcong node scripts/backup.js --keep=30 >> /var/log/chamcong-backup.log 2>&1
+#
+# Ảnh chấm công (nếu bật chụp ảnh) nằm ở thư mục photos cạnh file .db, sao chép riêng:
+# 30 2 * * * rsync -a /var/lib/chamcong/photos/ /mnt/backup/chamcong-photos/
+# Nhớ chép các file backups/*.db sang máy khác hoặc dịch vụ lưu trữ, đừng chỉ để trên cùng một máy chủ.

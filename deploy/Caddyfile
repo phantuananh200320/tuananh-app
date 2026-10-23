@@ -1,0 +1,8 @@
+# Caddy: HTTPS tự động. {$DOMAIN} lấy từ biến môi trường (xem docker-compose.yml).
+# Chạy Caddy trực tiếp trên máy chủ (không Docker) thì đổi "chamcong:3000" thành "127.0.0.1:3000".
+{$DOMAIN} {
+	encode gzip zstd
+	reverse_proxy chamcong:3000 {
+		header_up X-Forwarded-For {remote_host}
+	}
+}

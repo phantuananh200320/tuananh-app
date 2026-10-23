@@ -1,0 +1,42 @@
+# Chạy:  cp .env.example .env  (sửa DOMAIN, ADMIN_PASSWORD)  rồi  docker compose up -d --build
+# Caddy tự xin và gia hạn chứng chỉ HTTPS (Let's Encrypt). Cần mở cổng 80 và 443, trỏ DNS về máy chủ.
+services:
+  chamcong:
+    build: .
+    restart: unless-stopped
+    environment:
+      PORT: "3000"
+      DATA_DIR: /data
+      APP_TZ: ${APP_TZ:-Asia/Ho_Chi_Minh}
+      ADMIN_CODE: ${ADMIN_CODE:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+      PUBLIC_URL: ${PUBLIC_URL:-}
+      TRUST_PROXY: ${TRUST_PROXY:-1}
+      JWT_SECRET: ${JWT_SECRET:-}
+      ALLOW_ONLINE_UPDATE: ${ALLOW_ONLINE_UPDATE:-1}
+      UPDATE_PUBLIC_KEY: ${UPDATE_PUBLIC_KEY:-}
+    volumes:
+      - chamcong-data:/data
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - chamcong
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  chamcong-data:
+  caddy-data:
+  caddy-config:

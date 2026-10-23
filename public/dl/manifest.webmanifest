@@ -1,0 +1,17 @@
+{
+  "name": "Đặt hàng đại lý",
+  "short_name": "Đặt hàng",
+  "description": "Lên đơn hàng và theo dõi giao hàng dành cho khách hàng đại lý",
+  "lang": "vi",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f1f4fa",
+  "theme_color": "#0b2a5e",
+  "icons": [
+    { "src": "../erp/logo-mark.png", "sizes": "96x100", "type": "image/png" },
+    { "src": "../icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "../icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
