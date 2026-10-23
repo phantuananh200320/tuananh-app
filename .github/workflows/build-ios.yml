@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     name: Build iOS Artifact
-    runs-on: macos-latest # Sử dụng máy chủ ảo macOS của GitHub
+    runs-on: macos-latest
 
     steps:
       - name: Checkout code
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: '22'
 
       - name: Install dependencies
         run: npm install
@@ -39,12 +39,7 @@ jobs:
         run: |
           cd ios/App
           xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphoneos CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -archivePath build/App.xcarchive archive
-- name: Build iOS App (Archive)
-        run: |
-          cd ios/App
-          xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphoneos CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -archivePath build/App.xcarchive archive
 
-      # Thêm đoạn này ở cuối cùng để lưu file build thành Artifact
       - name: Upload iOS Archive
         uses: actions/upload-artifact@v3
         with:
