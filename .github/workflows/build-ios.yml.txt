@@ -1,0 +1,40 @@
+name: Build iOS App
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build iOS Artifact
+    runs-on: macos-latest # Sử dụng máy chủ ảo macOS của GitHub
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Sync Capacitor
+        run: npx cap sync ios
+
+      - name: Set up Ruby (cho CocoaPods)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+
+      - name: Install CocoaPods dependencies
+        run: |
+          cd ios/App
+          pod install
+
+      - name: Build iOS App (Archive)
+        run: |
+          cd ios/App
+          xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphoneos CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -archivePath build/App.xcarchive archive

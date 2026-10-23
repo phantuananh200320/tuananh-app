@@ -1,0 +1,2 @@
+Set WshShell = CreateObject("WScript.Shell")
+WshShell.Run "cmd.exe /c cd /d ""E:\ERP\chamcong-1.5.0-cai-dat\chamcong"" && caddy.exe run", 0, False
