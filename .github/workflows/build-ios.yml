@@ -41,7 +41,7 @@ jobs:
           xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphoneos CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -archivePath build/App.xcarchive archive
 
       - name: Upload iOS Archive
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ios-archive
           path: ios/App/build/App.xcarchive
