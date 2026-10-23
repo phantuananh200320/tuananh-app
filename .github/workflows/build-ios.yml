@@ -39,3 +39,14 @@ jobs:
         run: |
           cd ios/App
           xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphoneos CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -archivePath build/App.xcarchive archive
+- name: Build iOS App (Archive)
+        run: |
+          cd ios/App
+          xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphoneos CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -archivePath build/App.xcarchive archive
+
+      # Thêm đoạn này ở cuối cùng để lưu file build thành Artifact
+      - name: Upload iOS Archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: ios-archive
+          path: ios/App/build/App.xcarchive
